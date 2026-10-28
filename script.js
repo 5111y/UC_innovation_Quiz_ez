@@ -1,6 +1,6 @@
 /* =========================================================
    전문대학혁신지원사업단 퀴즈 룰렛
-   최종본
+   이지모드
 ========================================================= */
 
 
@@ -8,13 +8,13 @@
    기본 설정
 ========================= */
 
-const QUIZ_COUNT = 5;
+const QUIZ_COUNT = 3;
 const AUTO_NEXT_DELAY = 2000;
 
 
 /* =========================
    문제 데이터
-   - 전체 문제 중 랜덤 5문제
+   - 전체 문제 중 랜덤 3문제
    - 보기 순서도 문제마다 랜덤
 ========================= */
 
@@ -28,18 +28,6 @@ const QUESTIONS = [
               "해외 대학 진학을 위한 인재 양성" ],
     answer: 0,
     explanation: "울산과학대학교 전문대학혁신지원사업은 AI·디지털 전환 시대에 발맞춰 지역의 혁신성장을 주도할 실무형 전문직업인 양성을 목표로 합니다."
-  },
-
-  {
-    question: "울산과학대학교 전문대학혁신지원사업은 몇 개의 전략·과제·프로그램을 수행하고 있을까요?",
-    options: [
-      "3대 전략 · 9개 과제 · 15개 프로그램",
-      "6대 전략 · 9개 과제 · 22개 프로그램",
-      "6대 전략 · 11개 과제 · 22개 프로그램",
-      "9대 전략 · 6개 과제 · 22개 프로그램"
-    ],
-    answer: 1,
-    explanation: "울산과학대학교 전문대학혁신지원사업은 6대 전략, 9개 과제, 22개 프로그램으로 학생들의 혁신 성장을 지원하고 있습니다."
   },
 
   {
@@ -393,7 +381,7 @@ function shuffle(array) {
 
 /* =========================
    퀴즈 준비
-   - 전체 문제 중 랜덤 5문제
+   - 전체 문제 중 랜덤 3문제
 ========================= */
 
 function prepareQuiz() {
@@ -740,54 +728,16 @@ function goNextQuestion() {
 
 function showQuizComplete() {
 
-  clearTimeout(
-    state.nextTimer
-  );
+  clearTimeout(state.nextTimer);
 
-  /* 정답 개수 표시 */
-  if ($("scoreText")) {
-
-    $("scoreText").textContent =
-      `${state.score}문제`;
-
+  // "3문제 중 n문제 정답!" 형식으로 점수 표시
+  const scoreSummary = $("scoreSummary");
+  if (scoreSummary) {
+    scoreSummary.innerHTML =
+      `${QUIZ_COUNT}문제 중 <strong>${state.score}문제</strong> 정답!`;
   }
 
-
-  /* 정답 개수에 따른 오프라인 게임 기회 */
-  let gameChance;
-
-  if (state.score <= 1) {
-
-    gameChance = 1;
-
-  } else if (state.score <= 3) {
-
-    gameChance = 2;
-
-  } else if (state.score <= 4) {
-
-    gameChance = 3;
-
-  } else {
-
-    gameChance = 4;
-
-  }
-
-
-  /* 게임 기회 표시 */
-  if ($("gameChanceText")) {
-
-    $("gameChanceText").textContent =
-      `${gameChance}회`;
-
-  }
-
-
-  showScreen(
-    screens.quizComplete
-  );
-
+  showScreen(screens.quizComplete);
 }
 
 
@@ -814,5 +764,3 @@ if ($("startBtn")) {
   );
 
 }
-
-
